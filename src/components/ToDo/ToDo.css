@@ -1,0 +1,39 @@
+.todo-container {
+  display: flex;
+  align-items: center;
+  padding: 0.1rem 0.2rem;
+  height: 50px;
+}
+.todo-datetime {
+  font-size: 0.6rem;
+  font-weight: 800;
+}
+.todo-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 1rem;
+}
+.delete-todo {
+  cursor: pointer;
+  font-size: 18px;
+  margin-left: auto;
+  color: #6e6c65;
+}
+.delete-todo:hover {
+  color: #2e2b1c;
+}
+.checkbox-todo {
+  margin-right: 12px;
+  margin-bottom: -2px;
+  cursor: pointer;
+}
+.finished {
+  text-decoration: line-through;
+}
+.information-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+}

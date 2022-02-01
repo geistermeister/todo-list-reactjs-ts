@@ -1,0 +1,33 @@
+.main-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.todos-container {
+  height: calc(500px + 1rem);
+  width: 100%;
+  border-radius: 0.175rem;
+  background: #fff3a6;
+  padding: 0.5rem 0.8rem;
+}
+
+.chevron {
+  cursor: pointer;
+  color: #6e6c65;
+  &.disabled {
+    user-select: none;
+    cursor: not-allowed !important;
+    &:hover {
+      color: #6e6c65 !important;
+    }
+  }
+  &:hover {
+    color: #2e2b1c;
+  }
+}
+
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
