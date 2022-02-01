@@ -3,6 +3,13 @@
   flex-direction: column;
 }
 
+.menu {
+  margin-bottom: 0.5rem;
+  span:first-of-type {
+    margin-right: 8px;
+  }
+}
+
 .todos-container {
   height: calc(500px + 1rem);
   width: 100%;
@@ -11,9 +18,10 @@
   padding: 0.5rem 0.8rem;
 }
 
-.chevron {
+.icon {
   cursor: pointer;
   color: #6e6c65;
+  font-size: 20px;
   &.disabled {
     user-select: none;
     cursor: not-allowed !important;

@@ -2,6 +2,12 @@
   display: flex;
   flex-direction: column;
 }
+.menu {
+  margin-bottom: 0.5rem;
+}
+.menu span:first-of-type {
+  margin-right: 8px;
+}
 .todos-container {
   height: calc(500px + 1rem);
   width: 100%;
@@ -9,18 +15,19 @@
   background: #fff3a6;
   padding: 0.5rem 0.8rem;
 }
-.chevron {
+.icon {
   cursor: pointer;
   color: #6e6c65;
+  font-size: 20px;
 }
-.chevron.disabled {
+.icon.disabled {
   user-select: none;
   cursor: not-allowed !important;
 }
-.chevron.disabled:hover {
+.icon.disabled:hover {
   color: #6e6c65 !important;
 }
-.chevron:hover {
+.icon:hover {
   color: #2e2b1c;
 }
 .pagination-container {
