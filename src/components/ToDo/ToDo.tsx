@@ -1,14 +1,9 @@
 import { useState } from 'react'
-
+import { ITodo } from 'utils/Interfaces'
 import './ToDo.css'
 
 interface propTypes {
-  todo: {
-    id: string,
-    text: string,
-    added: string,
-    completed: boolean
-  },
+  todo: ITodo,
   deleteTodo: Function,
   setCompleted: Function
 }

@@ -2,58 +2,48 @@ import { useEffect, useState } from 'react'
 import { ToDo } from "../ToDo/ToDo"
 import { Modal } from '../Modal/Modal'
 import { FilterOptions } from '../FilterOptions/FilterOptions'
+import { ITodo, IFilters } from 'utils/Interfaces'
 import './ToDoList.css'
 
 interface propTypes {
-  todos: ITodos[],
+  // all todos
+  todos: ITodo[],
+  // The todos which are displayed currently (pagination)
+  reducedTodos: ITodo[],
   deleteTodo: Function,
   page: number,
   updatePage: Function,
   maxEntries: number,
-  setCompleted: Function
+  setCompleted: Function,
+  filters: IFilters,
+  setFilters: Function
 }
 
-interface ITodos {
-  id: string, text: string, added: string, completed: boolean
-}
 
-interface IFilters {
-  hideFinishedTasks: boolean
-}
-
-export const ToDoList = ({ todos, deleteTodo, page, updatePage, maxEntries, setCompleted }: propTypes): JSX.Element => {
+export const ToDoList = ({ filters, setFilters, todos, reducedTodos, deleteTodo, page, updatePage, maxEntries, setCompleted }: propTypes): JSX.Element => {
   const [showFilterOptions, setShowFilterOptions] = useState(false)
-  const [filters, setFilters] = useState<IFilters>({ hideFinishedTasks: false })
   const [showSortOptions, setShowSortOptions] = useState(false)
-  const [reducedTodos, setReducedTodos] = useState<ITodos[]>([...todos])
+  const [isMaxPage, setIsMaxPage] = useState(true)
+  
+  useEffect(() => {
+    setIsMaxPage(!(todos.length - (page * maxEntries) > 0))
+  }, [todos.length, page])
+
   const handlePreviousPage = () => {
     if (page > 1) {
       updatePage(page - 1)
     }
   }
-  const isMaxPage = !(todos.length - (page * maxEntries) > 0)
   const handleNextPage = () => {
     if (!isMaxPage) {
       updatePage(page + 1)
     }
   }
+
   const applyFilters = (filters: IFilters) => {
     setFilters(filters)
     updatePage(1)
   }
-  useEffect(() => {
-    const startIndex = (page - 1) * maxEntries
-    const endIndex = maxEntries * page  
-    const buffer = [...todos]
-    if (filters.hideFinishedTasks) {
-      let result = buffer.filter(d => !d.completed).slice(startIndex, endIndex)
-      setReducedTodos(result)
-    }
-    else {
-      let result = buffer.slice(startIndex, endIndex)
-      setReducedTodos(result)
-    }
-  }, [todos, filters, page])
   const activeFilters = Object.values(filters).filter(d => d).length
 
   return (
