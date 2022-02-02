@@ -54,6 +54,7 @@ export const ToDoList = ({ todos, deleteTodo, page, updatePage, maxEntries, setC
       setReducedTodos(result)
     }
   }, [todos, filters, page])
+  const activeFilters = Object.values(filters).filter(d => d).length
 
   return (
     <>
@@ -73,7 +74,10 @@ export const ToDoList = ({ todos, deleteTodo, page, updatePage, maxEntries, setC
       }
       <div className={'main-container'}>
         <div className={'menu'}>
-          <span className={'mdi mdi-filter icon'} title={'Filter options'} onClick={() => setShowFilterOptions(true)}/>
+          <div className={'filter-icon-container'}>
+            <span className={'mdi mdi-filter icon'} title={'Filter options'} onClick={() => setShowFilterOptions(true)}/>
+            { activeFilters > 0 && <div className={'filter-counter'} title={`${activeFilters} active filters.`}>{activeFilters}</div>}
+          </div>
           <span className={'mdi mdi-sort icon'} title={'Sort options'} onClick={() => setShowSortOptions(true)}/>
         </div>
         <div className={'todos-container'}>

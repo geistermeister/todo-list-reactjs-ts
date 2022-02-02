@@ -3,6 +3,8 @@
   flex-direction: column;
 }
 .menu {
+  display: flex;
+  align-items: center;
   margin-bottom: 0.5rem;
 }
 .menu span:first-of-type {
@@ -34,4 +36,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.filter-icon-container {
+  position: relative;
+}
+.filter-counter {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  color: white;
+  background: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.3rem;
+  font-weight: 1000;
+  font-size: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-right: 1px;
+  pointer-events: none;
+  user-select: none;
 }
