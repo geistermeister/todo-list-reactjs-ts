@@ -25,7 +25,7 @@ const App = () => {
     <div className={'mover'}>
       <div className={'content-container'}>
         <Header
-          addTodo={(value: string) => updateTodos([ ...todos, { id: Date.now().toString(), text: value, added: moment().format('DD.MM.YYYY hh:mm:ss'), completed: false }])}
+          addTodo={(value: string) => updateTodos([ ...todos, { id: Date.now().toString(), text: value, added: moment().format('DD.MM.YYYY HH:mm:ss'), completed: false }])}
           page={page}
           updatePage={(newPage: number) => setPage(newPage)}
           maxEntries={maxEntries}
