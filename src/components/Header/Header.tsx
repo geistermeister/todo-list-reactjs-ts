@@ -14,7 +14,7 @@ export const Header = ({ addTodo, page, updatePage, maxEntries, todoLength }: pr
   const [todo, changeTodo] = useState('')
   const add = () => {
     if (todo !== '') {
-      addTodo(todo)
+      addTodo({ type: 'add', todo })
       changeTodo('')
       if ((todoLength / page) === maxEntries) {
         updatePage(page + 1)

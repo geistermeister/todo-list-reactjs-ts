@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import { ToDoList } from './components/ToDoList/ToDoList'
 import { Header } from './components/Header/Header'
 import { ITodo, IFilters } from 'utils/Interfaces'
@@ -6,33 +6,61 @@ import moment from 'moment'
 
 import './App.css'
 
+enum TYPES {
+  ADD = 'add',
+  DELETE = 'delete',
+  TOGGLE = 'toggle'
+}
 
+interface Action {
+  type: TYPES,
+  todo?: string,
+  id?: string
+}
+
+const handleToDo = (todos: ITodo[], action: Action) => {
+  switch (action.type) {
+    case TYPES.ADD: return [...todos, addToDo(action.todo!)]
+    case TYPES.DELETE: return todos.filter(todo => todo.id !== action.id)
+    case TYPES.TOGGLE: return todos.map(todo => {
+      if (todo.id === action.id) {
+        return {...todo, completed: !todo.completed }
+      }
+      return todo
+    })
+    default: {
+      console.error(`Action type "${action.type}" not known!`)
+      return todos
+    }
+  }
+}
+
+const addToDo = (todo: string) => {
+  return {
+    id: Date.now().toString(),
+    text: todo,
+    added: moment().format('DD.MM.YYYY HH:mm:ss'),
+    completed: false
+  }
+}
 
 const App = () => {
-  const [todos, updateTodos] = useState<ITodo[]>([])
+  const [todos, handleToDoEntry] = useReducer(handleToDo, [])
   const [page, setPage] = useState(1)
   const [filters, setFilters] = useState<IFilters>({ hideFinishedTasks: false })
   const [reducedTodos, setReducedTodos] = useState<ITodo[]>([...todos])
   const maxEntries = 10
-  const setCompleted = (id: string, completed: boolean) => {
-    const buffer: ITodo[] = [...todos]
-    const found = buffer.find(d => d.id === id)
-    if (found) {
-      found.completed = completed
-    }
-    updateTodos(buffer)
-  }
 
   useEffect(() => {
     const startIndex = (page - 1) * maxEntries
-    const endIndex = maxEntries * page  
+    const endIndex = maxEntries * page
     const buffer = [...todos]
     if (filters.hideFinishedTasks) {
-      let result = buffer.filter(d => !d.completed).slice(startIndex, endIndex)
+      const result = buffer.filter(d => !d.completed).slice(startIndex, endIndex)
       setReducedTodos(result)
     }
     else {
-      let result = buffer.slice(startIndex, endIndex)
+      const result = buffer.slice(startIndex, endIndex)
       setReducedTodos(result)
     }
   }, [todos, filters, page])
@@ -41,7 +69,7 @@ const App = () => {
     <div className={'mover'}>
       <div className={'content-container'}>
         <Header
-          addTodo={(value: string) => updateTodos([ ...todos, { id: Date.now().toString(), text: value, added: moment().format('DD.MM.YYYY HH:mm:ss'), completed: false }])}
+          addTodo={handleToDoEntry}
           page={page}
           updatePage={(newPage: number) => setPage(newPage)}
           maxEntries={maxEntries}
@@ -50,11 +78,10 @@ const App = () => {
         <ToDoList
           todos={todos}
           reducedTodos={reducedTodos}
-          deleteTodo={(id: string) => updateTodos(todos.filter(todo => todo.id !== id))}
+          handleToDoEntry={handleToDoEntry}
           page={page}
           updatePage={(newPage: number) => setPage(newPage)}
           maxEntries={maxEntries}
-          setCompleted={(id: string, completed: boolean) => setCompleted(id, completed)}
           filters={filters}
           setFilters={setFilters}
         />

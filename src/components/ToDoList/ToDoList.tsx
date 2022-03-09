@@ -10,24 +10,23 @@ interface propTypes {
   todos: ITodo[],
   // The todos which are displayed currently (pagination)
   reducedTodos: ITodo[],
-  deleteTodo: Function,
   page: number,
   updatePage: Function,
   maxEntries: number,
-  setCompleted: Function,
   filters: IFilters,
-  setFilters: Function
+  setFilters: Function,
+  handleToDoEntry: Function
 }
 
 
-export const ToDoList = ({ filters, setFilters, todos, reducedTodos, deleteTodo, page, updatePage, maxEntries, setCompleted }: propTypes): JSX.Element => {
+export const ToDoList = ({ filters, setFilters, todos, reducedTodos, handleToDoEntry, page, updatePage, maxEntries }: propTypes): JSX.Element => {
   const [showFilterOptions, setShowFilterOptions] = useState(false)
   const [showSortOptions, setShowSortOptions] = useState(false)
   const [isMaxPage, setIsMaxPage] = useState(true)
-  
+
   useEffect(() => {
     setIsMaxPage(!(todos.length - (page * maxEntries) > 0))
-  }, [todos.length, page])
+  }, [todos.length, page, maxEntries])
 
   const handlePreviousPage = () => {
     if (page > 1) {
@@ -73,7 +72,7 @@ export const ToDoList = ({ filters, setFilters, todos, reducedTodos, deleteTodo,
         <div className={'todos-container'}>
           {
             Object.keys(reducedTodos).length > 0
-              ? reducedTodos.map(todo => <ToDo todo={todo} deleteTodo={deleteTodo} setCompleted={setCompleted} key={todo.id}/>)
+              ? reducedTodos.map(todo => <ToDo todo={todo} handleToDoEntry={handleToDoEntry} key={todo.id}/>)
               : <></>
           }
         </div>
